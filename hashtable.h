@@ -1,7 +1,7 @@
 #include "linkedlist.h"
-#include <stdio.h>  /* printf, sprintf */
-#include <stdlib.h> /* exit, atoi, malloc, free */
-#include <string.h> /* memcpy, memset */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define MAX_BUCKETS 10
 
