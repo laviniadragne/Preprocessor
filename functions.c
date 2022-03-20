@@ -8,16 +8,12 @@ void replace(char *line, char *to_replace, char *replacement, char *new_line)
 
 	pos = strstr(line, to_replace);
 
-	// if found
 	if (pos != NULL) {
-		// Copy the part of the old sentence *before* the replacement
 		memcpy(new_line, line, pos - line);
 
-		// Copy the replacement
 		memcpy(new_line + (pos - line), replacement,
 		       strlen(replacement));
 
-		// Copy the rest
 		strcpy(new_line + (pos - line) + strlen(replacement),
 		       pos + strlen(to_replace));
 	}
