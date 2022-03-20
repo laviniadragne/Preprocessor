@@ -28,7 +28,7 @@ int init_node(Node *new_node, char *key, char *value)
 	return SUCCESS;
 }
 
-// adauga la finalul liste
+// Adauga la finalul listei
 // intoarce 12 in caz de eroare si
 // 0 in caz de succes
 int add_node(LinkedList *list, char *key, char *value)
@@ -61,7 +61,7 @@ int add_node(LinkedList *list, char *key, char *value)
 	return SUCCESS;
 }
 
-// sterge un nod cu continutul (key, value)
+// Sterge un nod cu continutul (key, value)
 void remove_node(LinkedList *list, char *key)
 {
 	Node *prev, *curr;
