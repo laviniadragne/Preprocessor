@@ -7,35 +7,94 @@ Grupa: 334 CA
 
 	Continutul proiectului este urmatorul:
 	
-	- fisierele tema1.c functions.c functions.h hashtable.c hashtable.h linkedlist.c linkedlist.h
+	- fisierele: tema1.c functions.c functions.h hashtable.c hashtable.h
+		     linkedlist.c linkedlist.h
 
-	- Makefile (pentru compilarea pe Windows) si GNUmakefile (pentru compilarea pe Linux)
+	- Makefile si GNUmakefile
 
 	- acest fisier README.
 
 	
+
 	Flow-ul programului:
-	
-	
 
+
+	* Fisierul tema1.c contine entry point-ul programului (functia main). Acesta contine logica
+	operatiilor necesare preprocesarii.
+
+	* Fisierul functions.c contine implementarile functiilor necesare pentru preprocesare.
+
+	* Programul parseaza argumentele din linia de comanda, verificand daca contin flag-uri
+	sau nu. De procesarea flag-urilor se ocupa functia: parse_arguments. De asemenea, se 
+	verifica daca sunt date fisierele de input si output. 
+
+	* Se deschid fisierele de input si de output (daca exista). Functiile call_include_process
+	si include_process inlocuiesc headerele din fisier (daca exista) cu continutul
+ 	acestora. Headerele sunt cautate in directorul curent, iar ulterior in argumentele de 
+	intrare. Pentru a retine toate fisierele header date ca si parametru de intrare s-a
+	folosit vectorul char** include_paths, initializat cu maxim argc elemente.
+
+	* Pentru inlocuirea headerelor cu continutul lor s-a folosit un fisier auxiliar. Se copiaza
+	continutul fisierului auxiliar in fisierul initial de input.
+
+	* Functia construct_output_file construieste fisierul de output, pe baza noului fisier de
+	input. Se citeste linie cu linie din fisier si se verifica daca sunt prezente tag-urile de:
+	define, undef, if, ifdef sau ifndef. Pentru fiecare se apeleaza o alta functie de 
+	procesare. In cazul in care linia nu contine niciuna dintre acestea se apeleaza functia
+	simply_write care copiaza linia din fisierul de input in cel de output, tinandu-se cont ca
+	aparitiile într-un context de literal sir de caractere, ale unui simbol introdus prin
+ 	directiva #define, sa nu fie inlocuite. 
+
+	* Pentru stocarea asocierilor de tip <symbol, mapping> s-a folosit un HashTable. Acesta este
+	implementat in fisierul hashtable.c si se foloseste de un vector de liste inlantuite. 
+	Un nod dintr-o lista inlantuita contine o cheie, o valoare si un pointer catre urmatorul nod.
+	Lista inlantuita este definita de 2 pointeri: head si tail.
+
+	* Adaugarea unui nod in lista se face la finalul acesteia. In cazul in care se vrea adaugarea
+	unei key in dictionar, care deja exista, se actualizeaza doar value-ul acesteia.
+
+	* Directivele #define si #undef se folosesc de functiile de adaugare, respectiv stergere
+	a unui entry din hashtable.
+
+	* Procesarea pentru #ifdef si #ifndef se face in cadrul aceleasi functii recursive
+	(ifdef_process) tinandu-se cont de un flag, care indica daca valoarea trebuie,
+	respectiv nu trebuie sa se gaseasca in hashtable, pentru ca conditia sa fie adevarata.
+
+	* Pentru prelucrarea tuturor directivelor am urmat acelasi schelet: am ignorat tag-ul
+	pentru respectiva directiva, am parsat restul randului in cuvinte (inlocuind acolo unde
+	a fost nevoie delimitatorii cu " ", folosind functia replace) si am verificat daca
+	fiecare cuvant poate fi inlocuit cu un mapping (folosindu-ma de hashtable) sau daca 
+	trebuie sters mapping-ul specific acestuia (in functie de directiva pe care o procesez).
+	In final, am scris linia rezultata in fisierul de output.
+
+	* La fiecare alocare dinamica de memorie verific valorile intoarse de calloc sau malloc
+	si in caz de esec propag eroarea ENOMEM (= 12), dezaloc memoria alocata pana la acel 
+	moment si inchid fisierele deschise. O functie implementata pentru a servi acestei logici
+	este: free_all. 
+
+
+	Implementare:
+
+	* Intregul enunt al temei a fost implementat.
+
+
+	Compilare / rulare: 
 	
+	* Pentru rularea pe Windows se foloseste: Makefile (cu prima regula: build)
+	* Pentru rularea pe Linux se foloseste: GNUmakefile (cu prima regula: build)
+	* Ambele makefile-uri au regula de clean.
+	* Compilare: make (pe Linux) respectiv nmake (pe Windows)
+	* Rulare: ./so-cpp [-D <SYMBOL>[=<MAPPING>]] [-I <DIR>] [<INFILE>] [ [-o] <OUTFILE>] 
+
+
+	Link github:
+	* https://github.com/laviniadragne/Preprocesor
+
+
 	* Referinte:
+	https://stackoverflow.com/questions/15465755/replacing-a-word-in-a-text-by-another-given-word
+	Functia de hash: http://www.cse.yorku.ca/~oz/hash.html
+	Makefile-uri: https://ocw.cs.pub.ro/courses/so/laboratoare/laborator-01
+	Structura HashTable: https://ocw.cs.pub.ro/courses/sd-ca/2020/laboratoare/lab-04
+			     https://ocw.cs.pub.ro/courses/sd-ca/2020/laboratoare/lab-03
 	
-	
- 
-
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
