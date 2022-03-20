@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-// #include <unistd.h>
 #include <string.h>
 
 #define ENOMEM -12
 #define SUCCESS 0
 
 typedef struct Node {
-	char *key;   // first
-	char *value; // second
+	char *key;
+	char *value;
 	struct Node *next;
 } Node;
 
@@ -16,8 +15,6 @@ typedef struct LinkedList {
 	struct Node *head;
 	struct Node *tail;
 } LinkedList;
-
-// int create_list(LinkedList* l);
 
 void init_list(LinkedList *list);
 
